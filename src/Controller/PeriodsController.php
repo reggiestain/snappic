@@ -53,7 +53,7 @@ class PeriodsController extends AppController {
     public function index() {
         $period = $this->PeriodsTable->newEntity();
         $this->set('period', $period);
-        $this->set('title', 'Add Period');
+        $this->set('title', 'Period Index');
 
         $this->viewBuilder()->layout('dashboard');
     }
