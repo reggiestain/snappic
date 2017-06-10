@@ -47,6 +47,9 @@ class PeriodsController extends AppController {
         $this->PeriodsTable = TableRegistry::get('periods');
     }
 
+    /**
+     * Display index page.
+     */
     public function index() {
         $period = $this->PeriodsTable->newEntity();
         $this->set('period', $period);
@@ -55,6 +58,9 @@ class PeriodsController extends AppController {
         $this->viewBuilder()->layout('dashboard');
     }
 
+    /**
+     * Save time period.
+     */
     public function add() {
         if ($this->request->is('ajax')) {
             $ePeriod = $this->PeriodsTable->newEntity();
@@ -84,6 +90,11 @@ class PeriodsController extends AppController {
         }
     }
 
+    /**
+     * Calculates the total hours per day, considering period overlaps.
+     * @param  array   $periods
+     * @return integer
+     */
     public function total_hours($periods) {
         ksort($periods);
         do {
@@ -102,6 +113,10 @@ class PeriodsController extends AppController {
         });
     }
 
+    /**
+     * Display chart with data.
+     * @return json
+     */
     public function data() {
         if ($this->request->is('ajax')) {
             $periods = $this->PeriodsTable->find('all');

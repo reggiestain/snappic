@@ -88,10 +88,11 @@ use Cake\Routing\Router;
 
 <script>
     $(document).ready(function () {
-
+        //Datetimepicker
         $('#start-time').datetimepicker({format: 'HH:mm:ss'});
         $('#end-time').datetimepicker({format: 'HH:mm:ss'});
-
+        
+        //Load highchart
         $.ajax({
             url: "<?php echo Router::url('/periods/data');?>",
             type: "GET",
@@ -139,9 +140,14 @@ use Cake\Routing\Router;
                         }]
                 });
 
-            }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+                    location.reload();
+                }
         });
-
+        
+        //Submit form data
         $(document).on('submit', '#add', function (event) {
             event.preventDefault();
             var formData = $(this).serialize();
