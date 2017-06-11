@@ -115,7 +115,7 @@ use Cake\Routing\Router;
                         inverted: true
                     },
                     title: {
-                        text: results.hrs+' hours duration'
+                        text: results.hrs
                     },
                     
                     yAxis: {
@@ -143,7 +143,7 @@ use Cake\Routing\Router;
             },
             error: function (jqXHR, textStatus, errorThrown) {
                     alert(errorThrown);
-                    location.reload();
+                    //location.reload();
                 }
         });
         

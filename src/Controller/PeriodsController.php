@@ -118,24 +118,30 @@ class PeriodsController extends AppController {
      * @return json
      */
     public function data() {
-        if ($this->request->is('ajax')) {
+        //if ($this->request->is('ajax')) {
             $periods = $this->PeriodsTable->find('all');
-            foreach ($periods as $period) {
-                $start = substr_replace($period->created, ' ' . $period->start_time, -8);
-                $end = substr_replace($period->created, ' ' . $period->end_time, -8);
-                $startTime = strtotime($start) * 1000;
-                $EndTime = strtotime($end) * 1000;
-                $p[] = [new DateTime($period->start_time), new DateTime($period->end_time)];
-                $data[] = json_decode('[' . $startTime . ',' . $EndTime . ']', true);
+            if (!$periods->isEmpty()) {
+                foreach ($periods as $period) {
+                    $start = substr_replace($period->created, ' ' . $period->start_time, -8);
+                    $end = substr_replace($period->created, ' ' . $period->end_time, -8);
+                    $startTime = strtotime($start) * 1000;
+                    $EndTime = strtotime($end) * 1000;
+                    $p[] = [new DateTime($period->start_time), new DateTime($period->end_time)];
+                    $data[] = json_decode('[' . $startTime . ',' . $EndTime . ']', true);
+                }
+                $totalHrs = $this->total_hours($p);
+                $this->set('data', $data);
+                $this->set('hrs', $totalHrs.' hours duration');
+            } else {
+                $data[] = [];
+                $this->set('data', $data);
+                $totalHrs = 0;
+                $this->set('hrs', $totalHrs);
             }
 
-            $totalHrs = $this->total_hours($p);
-
-            $this->set('data', $data);
-            $this->set('hrs', $totalHrs);
             $this->set('_serialize', ['data', 'hrs']);
             $this->viewBuilder()->layout(false);
         }
-    }
+   // }
 
 }
